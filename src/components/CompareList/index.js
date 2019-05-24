@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Container, Repository } from './styles';
 
-const CompareList = ({ repositories }) => (
+const CompareList = ({ repositories, updateRepository, removeRepository }) => (
   <Container>
     {repositories.map(repository => (
       <Repository key={repository.id}>
@@ -26,26 +26,34 @@ const CompareList = ({ repositories }) => (
             {repository.lastCommit} <small>last commit</small>
           </li>
         </ul>
+        <div className="buttons-container">
+          <button type="button" onClick={() => updateRepository(repository.id)}>
+            <i className="fa fa-retweet" />
+            Atualizar
+          </button>
+          <button type="button" onClick={() => removeRepository(repository.id)}>
+            <i className="fa fa-trash" />
+            Excluir
+          </button>
+        </div>
       </Repository>
     ))}
   </Container>
 );
 
-CompareList.propTypes = {
-  repositories: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.number,
-      name: PropTypes.string,
-      owner: PropTypes.shape({
-        login: PropTypes.string,
-        avatar_url: PropTypes.string,
-      }),
-      stargazers_count: PropTypes.number,
-      forks_count: PropTypes.number,
-      open_issues_count: PropTypes.number,
-      pushed_at: PropTypes.string,
+CompareList.propTypes = PropTypes.arrayOf(
+  PropTypes.shape({
+    id: PropTypes.number,
+    name: PropTypes.string,
+    owner: PropTypes.shape({
+      login: PropTypes.string,
+      avatar_url: PropTypes.string,
     }),
-  ),
-};
+    stargazers_count: PropTypes.number,
+    forks_count: PropTypes.number,
+    open_issues_count: PropTypes.number,
+    pushed_at: PropTypes.string,
+  }),
+);
 
 export default CompareList;
